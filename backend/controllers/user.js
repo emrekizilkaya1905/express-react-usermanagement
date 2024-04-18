@@ -16,23 +16,23 @@ let users = [
     contact: "444555666",
   },
 ];
-app.get("/users", (req, res) => {
+export const getUsers = (req, res) => {
   res.send(users);
-});
+};
 
-app.get("/users/:id", (req, res) => {
+export const singleUser = (req, res) => {
   const id = req.params.id;
   const user = users.find((u) => u.id === parseInt(id));
   if (!user) {
     res.status(400).send("User not found!");
   }
   res.send(user);
-});
+};
 
-app.post("/users", (req, res) => {
+export const createUser = (req, res) => {
   const { name, email, country, contact } = req.body;
   const user = {
-    id: users.length + 1,
+    id: uuid(),
     name: name,
     email: email,
     country: country,
@@ -40,9 +40,9 @@ app.post("/users", (req, res) => {
   };
   users.push(user);
   res.send("New user created!");
-});
+};
 
-app.delete("/users/:id", (req, res) => {
+export const deleteUser = (req, res) => {
   const id = req.params.id;
   const user = users.find((u) => u.id === parseInt(id));
   users = users.filter((u) => u.id !== parseInt(id));
@@ -50,9 +50,9 @@ app.delete("/users/:id", (req, res) => {
     res.status(400).send("User not found!");
   }
   res.send(users);
-});
+};
 
-app.put("/users/:id", (req, res) => {
+export const updateUser = (req, res) => {
   const id = req.params.id;
   const user = users.find((u) => u.id === parseInt(id));
   const { name, email, country, contact } = req.body;
@@ -64,4 +64,4 @@ app.put("/users/:id", (req, res) => {
     (user.country = country),
     (user.contact = contact),
     res.send(users);
-});
+};
