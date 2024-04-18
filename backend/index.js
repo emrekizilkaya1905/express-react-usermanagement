@@ -3,10 +3,6 @@ import express from "express";
 const app = express();
 
 const port = 5000;
-app.get("/users", (req, res) => {
-  res.send(users);
-});
-
 let users = [
   {
     id: 1,
@@ -23,6 +19,18 @@ let users = [
     contact: "444555666",
   },
 ];
+app.get("/users", (req, res) => {
+  res.send(users);
+});
+
+app.get("/users/:id", (req, res) => {
+  const id = req.params.id;
+  const user = users.find((u) => u.id == id);
+  if (!user) {
+    res.status(400).send("User not found!");
+  }
+  res.send(user);
+});
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
