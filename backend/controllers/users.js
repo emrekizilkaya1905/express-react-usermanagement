@@ -2,14 +2,14 @@ import { v4 as uuid } from "uuid";
 
 let users = [
   {
-    id: 1,
+    id: uuid(),
     name: "Emre",
     email: "kizilkayaemre88@gmail.com",
     country: "Turkey",
     contact: "111222333",
   },
   {
-    id: 2,
+    id: uuid(),
     name: "Ece",
     email: "kizilkayaece01@gmail.com",
     country: "Turkey",
@@ -22,7 +22,7 @@ export const getUsers = (req, res) => {
 
 export const singleUser = (req, res) => {
   const id = req.params.id;
-  const user = users.find((u) => u.id === parseInt(id));
+  const user = users.find((u) => u.id === id);
   if (!user) {
     res.status(400).send("User not found!");
   }
@@ -44,8 +44,8 @@ export const createUser = (req, res) => {
 
 export const deleteUser = (req, res) => {
   const id = req.params.id;
-  const user = users.find((u) => u.id === parseInt(id));
-  users = users.filter((u) => u.id !== parseInt(id));
+  const user = users.find((u) => u.id === id);
+  users = users.filter((u) => u.id !== id);
   if (!user) {
     res.status(400).send("User not found!");
   }
@@ -54,7 +54,7 @@ export const deleteUser = (req, res) => {
 
 export const updateUser = (req, res) => {
   const id = req.params.id;
-  const user = users.find((u) => u.id === parseInt(id));
+  const user = users.find((u) => u.id === id);
   const { name, email, country, contact } = req.body;
   if (!user) {
     res.status(400).send("User not found!");
