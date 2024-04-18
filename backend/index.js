@@ -47,6 +47,16 @@ app.post("/users", (req, res) => {
   res.send("New user created!");
 });
 
+app.delete("/users/:id", (req, res) => {
+  const id = req.params.id;
+  const user = users.find((u) => u.id === parseInt(id));
+  users = users.filter((u) => u.id !== parseInt(id));
+  if (!user) {
+    res.status(400).send("User not found!");
+  }
+  res.send(users);
+});
+
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
