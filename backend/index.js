@@ -1,6 +1,8 @@
 import express from "express";
+import bodyParser from "body-parser";
 
 const app = express();
+app.use(bodyParser.json());
 
 const port = 5000;
 let users = [
@@ -30,6 +32,19 @@ app.get("/users/:id", (req, res) => {
     res.status(400).send("User not found!");
   }
   res.send(user);
+});
+
+app.post("/users", (req, res) => {
+  const { name, email, country, contact } = req.body;
+  const user = {
+    id: users.length + 1,
+    name: name,
+    email: email,
+    country: country,
+    contact: contact,
+  };
+  users.push(user);
+  res.send("New user created!");
 });
 
 app.listen(port, () => {
