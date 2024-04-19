@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const [data, setData] = useState([]);
@@ -48,8 +49,13 @@ const Home = () => {
                 <td>{user.contact}</td>
                 <td>
                   <div className="buttons">
-                    <button>View</button>
-                    <button>Edit</button>
+                    <Link to={`/view/${user.id}`}>
+                      <button>View</button>
+                    </Link>
+
+                    <Link to={`/update/${user.id}`}>
+                      <button>Edit</button>
+                    </Link>
                     <button onClick={() => onDeleteUser(user.id)}>
                       Delete
                     </button>

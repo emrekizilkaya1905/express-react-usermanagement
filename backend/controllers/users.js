@@ -63,5 +63,5 @@ export const updateUser = (req, res) => {
   (user.email = email),
     (user.country = country),
     (user.contact = contact),
-    res.send(users);
+    res.send("Updated User!");
 };

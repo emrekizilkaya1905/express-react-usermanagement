@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -17,8 +17,28 @@ const AddEdit = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (id) {
+      getSingleUser(id);
+    }
+  }, [id]);
+
+  const getSingleUser = async (id) => {
+    const res = await axios.get(`http://localhost:5000/users/${id}`);
+    if (res.status === 200) {
+      setData({ ...res.data });
+    }
+  };
+
   const createUser = async (data) => {
     const res = await axios.post("http://localhost:5000/users/", data);
+    if (res.status === 200) {
+      toast.success(res.data);
+    }
+  };
+
+  const updateUser = async (data, id) => {
+    const res = await axios.put(`http://localhost:5000/users/${id}`, data);
     if (res.status === 200) {
       toast.success(res.data);
     }
@@ -29,7 +49,12 @@ const AddEdit = () => {
       toast.error("Please fill all the blanks.");
       return;
     }
-    createUser(data);
+    if (!id) {
+      createUser(data);
+    } else {
+      updateUser(data, id);
+    }
+
     navigate("/");
   };
 
@@ -84,7 +109,7 @@ const AddEdit = () => {
             value={contact}
           />
         </div>
-        <input type="submit" value="Add" />
+        <input type="submit" value={id ? "Update" : "Add"} />
       </form>
     </div>
   );
